@@ -1,6 +1,6 @@
 # GERTRUDE Discord Bot
 
-Gertrude is a discord bot used for tracking your Music Ripping progress, modified from 9vult's [nino](https://github.com/9vult/nino)
+GERTRUDE is a discord bot used for tracking your Music Ripping progress, modified from 9vult's [nino](https://github.com/9vult/nino)
 
 ****
 
