@@ -39,7 +39,7 @@ export const SwapStaffCmd = async (client: Client, db: Database, dbdata: Databas
 
   const embed = new EmbedBuilder()
     .setTitle(`Project Modification`)
-    .setDescription(`Swapped <@${staff}> in for position ${abbreviation}.`)
-    .setColor(0xd797ff);
+    .setDescription(`Swapped <@${staff}> in for position ${abbreviation} for Project #${projects[project].pnumber}, \`${projects[project].nickname}\`.`)
+    .setColor(0xc58433);
   await interaction.editReply({ embeds: [embed], allowedMentions: generateAllowedMentions([[], []]) });
 }

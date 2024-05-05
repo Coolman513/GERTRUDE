@@ -37,16 +37,13 @@ export const AddStaffCmd = async (client: Client, db: Database, dbdata: Database
     }
   });
 
-  const pnumber = projects[project].pnumber;
-  for (let key in pnumber) {
-    db.ref(`/Projects/${guildId}/${project}/pnumber/${key}`).child("tasks").push({
+  db.ref(`/Projects/${guildId}/${project}`).child("tasks").push({
       abbreviation, done: false
     });
-  }
 
   const embed = new EmbedBuilder()
     .setTitle(`Project Creation`)
-    .setDescription(`Added <@${staff}> for position ${abbreviation}.`)
-    .setColor(0xd797ff);
+    .setDescription(`Added <@${staff}> for position ${abbreviation} for Project #${projects[project].pnumber}, \`${projects[project].nickname}\`.`)
+    .setColor(0xc58433);
   await interaction.editReply({ embeds: [embed], allowedMentions: generateAllowedMentions([[], []]) });
 }

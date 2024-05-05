@@ -12,10 +12,8 @@ export const RemoveAdditionalStaffCmd = async (client: Client, db: Database, dbd
   await interaction.deferReply();
 
   const project = options.getString('project')!;
-  const pnum = options.getNumber('pnumber')!;
   const abbreviation = options.getString('abbreviation')!.toUpperCase();
 
-  let epvalue;
   if (guildId == null || !(guildId in dbdata.guilds))
     return fail(`Guild ${guildId} does not exist.`, interaction);
 
@@ -27,28 +25,26 @@ export const RemoveAdditionalStaffCmd = async (client: Client, db: Database, dbd
     return fail(`You do not have permission to do that.`, interaction);
 
   let success = false;
-  for (let ep in projects[project].pnumber)
-    if (projects[project].pnumber[ep].number == pnum) {
-      epvalue = ep;
-      for (let pos in projects[project].pnumber[ep].additionalStaff) {
-        if (projects[project].pnumber[ep].additionalStaff[pos].role.abbreviation == abbreviation) {
-          success = true;
-          db.ref(`/Projects/${guildId}/${project}/pnumber/${epvalue}/additionalStaff`).child(pos).remove();
+    if (projects[project].pnumber != null) {
+      for (let pos in projects[project].additionalStaff){
+        if (projects[project].additionalStaff[pos].role.abbreviation == abbreviation) {
+            success = true;
+            db.ref(`/Projects/${guildId}/${project}/additionalStaff`).child(pos).remove();
+          }
+        }
+        if (success) {
+          for (let task in projects[project].tasks) {
+            if (projects[project].tasks[task].abbreviation == abbreviation)
+              db.ref(`/Projects/${guildId}/${project}/tasks`).child(task).remove();
+          }
         }
       }
-      if (success) {
-        for (let task in projects[project].pnumber[ep].tasks) {
-          if (projects[project].pnumber[ep].tasks[task].abbreviation == abbreviation)
-            db.ref(`/Projects/${guildId}/${project}/pnumber/${epvalue}/tasks`).child(task).remove();
-        }
-      }
-    }
   if (!success)
     return fail(`Task ${abbreviation} was not found.`, interaction);
 
   const embed = new EmbedBuilder()
     .setTitle(`Project Modification`)
-    .setDescription(`Removed position ${abbreviation} from pnumber ${pnum}.`)
-    .setColor(0xd797ff);
+    .setDescription(`Removed position ${abbreviation} for Project #${projects[project].pnumber}, \`${projects[project].nickname}\`.`)
+    .setColor(0xc58433);
   await interaction.editReply({ embeds: [embed], allowedMentions: generateAllowedMentions([[], []]) });
 }

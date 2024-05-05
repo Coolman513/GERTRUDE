@@ -12,9 +12,8 @@ export const BlameCmd = async (client: Client, db: Database, dbdata: DatabaseDat
   await interaction.deferReply();
 
   const project = options.getString('project')!;
-  let pnum: number | null = options.getNumber('pnumber');
+  let pnumber = options.getNumber('pnumber');
 
-  let epvalue;
   if (guildId == null || !(guildId in dbdata.guilds))
     return fail(`Guild ${guildId} does not exist.`, interaction);
 
@@ -23,28 +22,23 @@ export const BlameCmd = async (client: Client, db: Database, dbdata: DatabaseDat
     return fail(`Project ${project} does not exist.`, interaction);
   let status = '';
   let success = false;
-  for (let ep in projects[project].pnumber) {
-    let projObj = projects[project].pnumber[ep];
-    if ((pnum != null && projObj.number === pnum) || (pnum == null && projObj.done == false)) {
+
+  let projObj = projects[project];
+    if ((pnumber != null && projObj.pnumber === pnumber) || (pnumber == null && projObj.done == false)) {
       success = true;
-      pnum = projObj.number;
-      for (let task in projects[project].pnumber[ep].tasks) {
-        let taskObj = projects[project].pnumber[ep].tasks[task];
+      for (let task in projects[project].tasks) {
+        let taskObj = projects[project].tasks[task];
         if (taskObj.done) status += `~~${taskObj.abbreviation}~~ `;
         else status += `**${taskObj.abbreviation}** `;
       }
     }
-  }
-
-  if (!success)
-    return fail('The project is complete, or the specified pnum could not be found.', interaction);
 
   const embed = new EmbedBuilder()
     .setAuthor({ name: projects[project].title })
-    .setTitle(`Project Number ${pnum}`)
+    .setTitle(`Project #${projects[project].pnumber}`)
     .setThumbnail(projects[project].poster)
-    .setDescription(status)
-    .setColor(0xd797ff)
+    .setDescription(`${status} \n Media: ${projects[project].type} \n Number of Tracks: ${projects[project].length}`)
+    .setColor(Number(projects[project].color))
     .setTimestamp(Date.now());
   await interaction.editReply({ embeds: [embed], allowedMentions: generateAllowedMentions([[], []]) });
 

@@ -14,209 +14,205 @@ export default (client: Client): void => {
 
     const newProjectCmd = new SlashCommandBuilder()
       .setName('newproject')
-      .setDescription('Create a new project')
+      .setDescription('Create A New Project')
       .addStringOption(o =>
         o.setName('nickname')
-          .setDescription('Project nickname')
+          .setDescription('Project Nickname')
           .setRequired(true)
       )
       .addStringOption(o =>
         o.setName('title')
-          .setDescription('Full title')
+          .setDescription('Full Title')
+          .setRequired(true)
+      )
+      .addNumberOption(o =>
+        o.setName('pnumber')
+          .setDescription('Project #')
+          .setRequired(true)
+      )
+      .addStringOption(o =>
+        o.setName('color')
+          .setDescription('Choose Color For Done/Undone/Blame (Input a Color Hex, Precede with 0x)')
           .setRequired(true)
       )
       .addStringOption(o =>
         o.setName('type')
-          .setDescription('Project type')
+          .setDescription('Project Type')
           .setRequired(true)
           .setChoices(
             { name: 'Vinyl', value: 'Vinyl' },
+            { name: 'Cassette', value: 'Cassette' },
             { name: 'CD', value: 'CD' },
             { name: 'BD', value: 'BD' }
           )
       )
       .addNumberOption(o =>
         o.setName('length')
-          .setDescription('Number of tracks')
+          .setDescription('Number Of Tracks')
           .setRequired(true)
       )
       .addStringOption(o =>
         o.setName('poster')
-          .setDescription('Poster image URL')
+          .setDescription('Poster Image URL')
           .setRequired(true)
       )
       .addChannelOption(o =>
         o.setName('updatechannel')
-          .setDescription('Channel to post updates to')
+          .setDescription('Channel To Post Uupdates To')
           .setRequired(true)
       )
       .addChannelOption(o =>
         o.setName('releasechannel')
-          .setDescription('Channel to post releases to')
+          .setDescription('Channel To Post Releases To')
           .setRequired(true)
       );
 
     const addStaffCmd = new SlashCommandBuilder()
       .setName('addstaff')
-      .setDescription('Add staff to a project')
+      .setDescription('Add staff To A project')
       .addStringOption(o =>
         o.setName('project')
-          .setDescription('Project nickname')
+          .setDescription('Project Nickname')
           .setRequired(true)
           .setAutocomplete(true)
       )
       .addUserOption(o =>
         o.setName('member')
-          .setDescription('Staff member')
+          .setDescription('Staff Member')
           .setRequired(true)
       )
       .addStringOption(o =>
         o.setName('abbreviation')
-          .setDescription('Position shorthand')
+          .setDescription('Position Shorthand')
           .setRequired(true)
       )
       .addStringOption(o =>
         o.setName('title')
-          .setDescription('Full position name')
+          .setDescription('Full Position Name')
           .setRequired(true)
       );
 
     const removeStaffCmd = new SlashCommandBuilder()
       .setName('removestaff')
-      .setDescription('Remove staff from a project')
+      .setDescription('Remove Staff From A project')
       .addStringOption(o =>
         o.setName('project')
-          .setDescription('Project nickname')
+          .setDescription('Project Nickname')
           .setRequired(true)
           .setAutocomplete(true)
       )
       .addStringOption(o =>
         o.setName('abbreviation')
-          .setDescription('Position shorthand')
+          .setDescription('Position Shorthand')
           .setRequired(true)
       );
 
     const swapStaffCmd = new SlashCommandBuilder()
       .setName('swapstaff')
-      .setDescription('Swap staff into a project')
+      .setDescription('Swap staff Into A Project')
       .addStringOption(o =>
         o.setName('project')
-          .setDescription('Project nickname')
+          .setDescription('Project Nickname')
           .setRequired(true)
           .setAutocomplete(true)
       )
       .addStringOption(o =>
         o.setName('abbreviation')
-          .setDescription('Position shorthand')
+          .setDescription('Position Shorthand')
           .setRequired(true)
       )
       .addUserOption(o =>
         o.setName('member')
-          .setDescription('Staff member')
+          .setDescription('Staff Member')
           .setRequired(true)
       );
 
     const addAdditionalStaffCmd = new SlashCommandBuilder()
       .setName('addadditionalstaff')
-      .setDescription('Add additional staff to an pnum')
+      .setDescription('Add Additional Staff To A Position')
       .addStringOption(o =>
         o.setName('project')
-          .setDescription('Project nickname')
+          .setDescription('Project Nickname')
           .setRequired(true)
           .setAutocomplete(true)
       )
-      .addNumberOption(o =>
-        o.setName('pnumber')
-          .setDescription('Project number')
-          .setRequired(true)
-      )
       .addUserOption(o =>
         o.setName('member')
-          .setDescription('Staff member')
+          .setDescription('Staff Member')
           .setRequired(true)
       )
       .addStringOption(o =>
         o.setName('abbreviation')
-          .setDescription('Position shorthand')
+          .setDescription('Position Shorthand')
           .setRequired(true)
       )
       .addStringOption(o =>
         o.setName('title')
-          .setDescription('Full position name')
+          .setDescription('Full Position Name')
           .setRequired(true)
       );
 
     const removeAdditionalStaffCmd = new SlashCommandBuilder()
       .setName('removeadditionalstaff')
-      .setDescription('Remove additional staff from a project')
+      .setDescription('Remove Additional Staff From A Project')
       .addStringOption(o =>
         o.setName('project')
-          .setDescription('Project nickname')
+          .setDescription('Project Nickname')
           .setRequired(true)
           .setAutocomplete(true)
       )
-      .addNumberOption(o =>
-        o.setName('pnumber')
-          .setDescription('Project number')
-          .setRequired(true)
-      )
       .addStringOption(o =>
         o.setName('abbreviation')
-          .setDescription('Position shorthand')
+          .setDescription('Position Shorthand')
           .setRequired(true)
       );
 
     const swapAdditionalStaffCmd = new SlashCommandBuilder()
       .setName('swapadditionalstaff')
-      .setDescription('Swap additional staff into an pnum')
+      .setDescription('Swap Additional Staff Into A Position')
       .addStringOption(o =>
         o.setName('project')
-          .setDescription('Project nickname')
+          .setDescription('Project Nickname')
           .setRequired(true)
           .setAutocomplete(true)
       )
-      .addNumberOption(o =>
-        o.setName('pnumber')
-          .setDescription('Project number')
-          .setRequired(true)
-      )
       .addStringOption(o =>
         o.setName('abbreviation')
-          .setDescription('Position shorthand')
+          .setDescription('Position Shorthand')
           .setRequired(true)
       )
       .addUserOption(o =>
         o.setName('member')
-          .setDescription('Staff member')
+          .setDescription('Staff Member')
           .setRequired(true)
       );
 
     const transferOwnershipCmd = new SlashCommandBuilder()
       .setName('transferownership')
-      .setDescription('Transfer project ownership to someone else')
+      .setDescription('Transfer Project Ownership To Someone Else')
       .addStringOption(o =>
         o.setName('project')
-          .setDescription('Project nickname')
+          .setDescription('Project Nickname')
           .setRequired(true)
           .setAutocomplete(true)
       )
       .addUserOption(o =>
         o.setName('member')
-          .setDescription('Staff member')
+          .setDescription('Staff Member')
           .setRequired(true)
       );
 
     const deleteProjectCmd = new SlashCommandBuilder()
       .setName('deleteproject')
-      .setDescription('Delete a project')
+      .setDescription('Delete A Project')
       .addStringOption(o =>
         o.setName('project')
-          .setDescription('Project nickname')
+          .setDescription('Project Nickname')
           .setRequired(true)
           .setAutocomplete(true)
       );
 
-    const editProjectCmd = new SlashCommandBuilder()
+      const editProjectCmd = new SlashCommandBuilder()
       .setName('editproject')
       .setDescription('Edit a project')
       .addStringOption(o =>
@@ -230,6 +226,7 @@ export default (client: Client): void => {
           .setDescription('Option to change')
           .setRequired(true)
           .addChoices(
+            { name: 'Pnumber', value: 'Pnumber' },
             { name: 'Title', value: 'Title' },
             { name: 'Poster', value: 'Poster' },
             { name: 'UpdateChannelID', value: 'UpdateChannel' },
@@ -241,118 +238,57 @@ export default (client: Client): void => {
           .setDescription('New value')
           .setRequired(true)
       );
-
-    const addpnumCmd = new SlashCommandBuilder()
-      .setName('addpnum')
-      .setDescription('Add Project Number')
-      .addStringOption(o =>
-        o.setName('project')
-          .setDescription('Project nickname')
-          .setRequired(true)
-          .setAutocomplete(true)
-      )
-      .addNumberOption(o =>
-        o.setName('pnumber')
-          .setDescription('Project Number')
-          .setRequired(true)
-      );
-
-    const removepnumCmd = new SlashCommandBuilder()
-      .setName('removepnum')
-      .setDescription('Remove 1 Project Number')
-      .addStringOption(o =>
-        o.setName('project')
-          .setDescription('Project nickname')
-          .setRequired(true)
-          .setAutocomplete(true)
-      )
-      .addNumberOption(o =>
-        o.setName('pnumber')
-          .setDescription('Project number')
-          .setRequired(true)
-      );
-
+      
     const doneCmd = new SlashCommandBuilder()
       .setName('done')
-      .setDescription('Mark a position as done')
+      .setDescription('Mark A Position As Done')
       .addStringOption(o =>
         o.setName('project')
-          .setDescription('Project nickname')
-          .setRequired(true)
-          .setAutocomplete(true)
-      )
-      .addNumberOption(o =>
-        o.setName('pnumber')
-          .setDescription('Project number')
+          .setDescription('Project Nickname')
           .setRequired(true)
           .setAutocomplete(true)
       )
       .addStringOption(o =>
         o.setName('abbreviation')
-          .setDescription('Position shorthand')
+          .setDescription('Position Shorthand')
           .setRequired(true)
           .setAutocomplete(true)
       );
 
     const undoneCmd = new SlashCommandBuilder()
       .setName('undone')
-      .setDescription('Mark a position as not done')
+      .setDescription('Mark A Position As Not Done')
       .addStringOption(o =>
         o.setName('project')
-          .setDescription('Project nickname')
-          .setRequired(true)
-          .setAutocomplete(true)
-      )
-      .addNumberOption(o =>
-        o.setName('pnumber')
-          .setDescription('Project number')
+          .setDescription('Project Nickname')
           .setRequired(true)
           .setAutocomplete(true)
       )
       .addStringOption(o =>
         o.setName('abbreviation')
-          .setDescription('Position shorthand')
+          .setDescription('Position Shorthand')
           .setRequired(true)
           .setAutocomplete(true)
       );
 
     const blameCmd = new SlashCommandBuilder()
       .setName('blame')
-      .setDescription('Check the status of a project')
+      .setDescription('Check The Status Of A Project')
       .addStringOption(o =>
         o.setName('project')
-          .setDescription('Project name')
+          .setDescription('Project Name')
           .setRequired(true)
           .setAutocomplete(true)
       )
-      .addNumberOption(o =>
-        o.setName('pnumber')
-          .setDescription('Project Number')
-          .setRequired(false)
-      );
 
     const releaseCmd = new SlashCommandBuilder()
       .setName('release')
       .setDescription('Release!')
       .addStringOption(o =>
         o.setName('project')
-          .setDescription('Project nickname')
+          .setDescription('Project Nickname')
           .setRequired(true)
           .setAutocomplete(true)
-      )
-      .addStringOption(o =>
-        o.setName('type')
-          .setDescription('Type of release')
-          .setRequired(true)
-          .addChoices(
-            { name: 'project', value: 'project' },
-            { name: 'Batch', value: 'Batch' }
-          )
-      )
-      .addStringOption(o =>
-        o.setName('number')
-          .setDescription('What is being released? [Number or Range]')
-          .setRequired(true)
       )
       .addStringOption(o =>
         o.setName('url')
@@ -361,7 +297,7 @@ export default (client: Client): void => {
       )
       .addRoleOption(o =>
         o.setName('role')
-          .setDescription('Role to ping')
+          .setDescription('Role To Ping')
           .setRequired(false)
       );
 
@@ -377,8 +313,6 @@ export default (client: Client): void => {
     client.application.commands.create(transferOwnershipCmd);
     client.application.commands.create(deleteProjectCmd);
     client.application.commands.create(editProjectCmd);
-    client.application.commands.create(addpnumCmd);
-    client.application.commands.create(removepnumCmd);
     client.application.commands.create(doneCmd);
     client.application.commands.create(undoneCmd);
     client.application.commands.create(blameCmd);

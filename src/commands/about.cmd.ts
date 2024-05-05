@@ -8,7 +8,7 @@ export const AboutCmd = async (interaction: ChatInputCommandInteraction) => {
   const embed = new EmbedBuilder()
     .setTitle(`GERTRUDE - CMEN Server for rip projects (modified from 9vults nino)`)
     .setDescription(`Version: ${VERSION}\nAuthor: <@773582520809422858>`)
-    .setURL(`https://github.com/9vult/nino`)
-    .setColor(0xd797ff);
+    .setURL(`https://github.com/Coolman513/GERTRUDE`)
+    .setColor(0xc58433);
   await interaction.reply({ embeds: [embed], allowedMentions: generateAllowedMentions([[], []]) });
 }

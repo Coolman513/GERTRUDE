@@ -7,12 +7,14 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "ts-node src/gert.ts"
   },
-  "author": "9volt",
+  "author": "9volt/CoolMan513",
   "license": "ISC",
   "dependencies": {
     "discord.js": "^14.13.0",
-    "dotenv": "^16.0.3",
-    "firebase-admin": "^11.3.0",
+    "dotenv": "^16.4.5",
+    "dotenv-extended": "^2.9.0",
+    "firebase": "^10.11.0",
+    "firebase-admin": "^12.1.0",
     "node-fetch": "^2.6.1"
   },
   "devDependencies": {

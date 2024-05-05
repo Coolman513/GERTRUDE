@@ -11,10 +11,8 @@ export const UndoneCmd = async (client: Client, db: Database, dbdata: DatabaseDa
   await interaction.deferReply();
 
   const project = options.getString('project')!;
-  const pnum = options.getNumber('pnumber')!;
-  const abbreviation = options.getString('abbreviation')!.toUpperCase();
+  let abbreviation: String | null = options.getString('abbreviation')!.toUpperCase();
 
-  let epvalue;
   let taskvalue;
   let taskName;
   let isValidUser = false;
@@ -36,11 +34,10 @@ export const UndoneCmd = async (client: Client, db: Database, dbdata: DatabaseDa
     }
   }
 
-  for (let ep in projects[project].pnumber) {
-    if (projects[project].pnumber[ep].number == pnum) {
-      epvalue = ep;
-      for (let task in projects[project].pnumber[ep].tasks) {
-        let taskObj = projects[project].pnumber[ep].tasks[task];
+
+  if (projects[project].pnumber != null) {
+      for (let task in projects[project].tasks) {
+        let taskObj = projects[project].tasks[task];
         if (taskObj.abbreviation === abbreviation) {
           taskvalue = task;
           if (!taskObj.done)
@@ -53,8 +50,8 @@ export const UndoneCmd = async (client: Client, db: Database, dbdata: DatabaseDa
       }
       if (taskvalue == undefined) return fail(`Task ${abbreviation} does not exist!`, interaction);
       if (!isValidUser) { // Not key staff
-        for (let addStaff in projects[project].pnumber[ep].additionalStaff) {
-          let addStaffObj = projects[project].pnumber[ep].additionalStaff[addStaff];
+        for (let addStaff in projects[project].additionalStaff) {
+          let addStaffObj = projects[project].additionalStaff[addStaff];
           if (addStaffObj.role.abbreviation === abbreviation && (addStaffObj.id === user.id || projects[project].owner === user.id)) {
             status = `❌ **${addStaffObj.role.title}**\n` + status;
             taskName = addStaffObj.role.title;
@@ -63,31 +60,31 @@ export const UndoneCmd = async (client: Client, db: Database, dbdata: DatabaseDa
         }
       }
     }
-  }
 
   if (!isValidUser)
     return fail('You do not have permission to do that.', interaction);
 
   if (taskvalue != undefined)
-    db.ref(`/Projects/${guildId}/${project}/pnumber/${epvalue}/tasks/${taskvalue}`).update({
+    db.ref(`/Projects/${guildId}/${project}/tasks/${taskvalue}`).update({
       abbreviation, done: false
     });
 
-  db.ref(`/Projects/${guildId}/${project}/pnumber/${epvalue}`).update({ done: false });
+  db.ref(`/Projects/${guildId}/${project}`).update({ done: false });
 
   const embed = new EmbedBuilder()
     .setAuthor({ name: projects[project].title })
     .setTitle('❌ Task Incomplete')
-    .setDescription(`So the pnum ${pnum} **${taskName}** wasn't done, after all. Typical.`)
-    .setColor(0xd797ff)
+    .setDescription(`So looks like project #${projects[project].pnumber}, \`${projects[project].nickname}\`'s **${taskName}** wasn't done. Take your time, don't rush it.`)
+    .setColor(0xc58433)
     .setTimestamp(Date.now());
   await interaction.editReply({ embeds: [embed], allowedMentions: generateAllowedMentions([[], []]) });
 
   const publishEmbed = new EmbedBuilder()
     .setAuthor({ name: projects[project].title })
-    .setTitle(`pnum ${pnum}`)
+    .setTitle(`Project #${projects[project].pnumber}`)
     .setThumbnail(projects[project].poster)
-    .setDescription(status)
+    .setDescription(`${status} \n Media: ${projects[project].type} \n Number of Tracks: ${projects[project].length}`)
+    .setColor(Number(projects[project].color))
     .setTimestamp(Date.now());
   const publishChannel = client.channels.cache.get(projects[project].updateChannel);
   if (publishChannel?.isTextBased)

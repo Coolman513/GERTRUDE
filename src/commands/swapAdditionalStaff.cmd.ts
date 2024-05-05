@@ -11,7 +11,7 @@ export const SwapAdditionalStaffCmd = async (client: Client, db: Database, dbdat
   await interaction.deferReply();
 
   const project = options.getString('project')!;
-  const pnum = options.getNumber('pnumber')!;
+  const pnumber = options.getNumber('pnumber')!;
   const staff = (options.getMember('member')! as GuildMember).id;
   const abbreviation = options.getString('abbreviation')!.toUpperCase();
 
@@ -26,12 +26,11 @@ export const SwapAdditionalStaffCmd = async (client: Client, db: Database, dbdat
     return fail(`You do not have permission to do that.`, interaction);
 
   var found;
-  for (let ep in projects[project].pnumber)
-    if (projects[project].pnumber[ep].number == pnum) {
-      for (let pos in projects[project].pnumber[ep].additionalStaff)
-        if (projects[project].pnumber[ep].additionalStaff[pos].role.abbreviation == abbreviation) {
+    if (projects[project].pnumber == pnumber) {
+      for (let pos in projects[project].additionalStaff)
+        if (projects[project].additionalStaff[pos].role.abbreviation == abbreviation) {
           found = pos;
-          db.ref(`/Projects/${guildId}/${project}/pnumber/${ep}`).child("additionalStaff").child(pos).update({ id: staff });
+          db.ref(`/Projects/${guildId}/${project}`).child("additionalStaff").child(pos).update({ id: staff });
           break;
         }
     }
@@ -41,7 +40,7 @@ export const SwapAdditionalStaffCmd = async (client: Client, db: Database, dbdat
 
   const embed = new EmbedBuilder()
     .setTitle(`Project Modification`)
-    .setDescription(`Swapped <@${staff}> in for position ${abbreviation} for pnumber ${pnum}.`)
-    .setColor(0xd797ff);
+    .setDescription(`Swapped <@${staff}> in for position ${abbreviation} for Project #${projects[project].pnumber}, \`${projects[project].nickname}\`.`)
+    .setColor(0xc58433);
   await interaction.editReply({ embeds: [embed], allowedMentions: generateAllowedMentions([[], []]) });
 }

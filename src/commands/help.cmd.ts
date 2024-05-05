@@ -8,7 +8,7 @@ export const HelpCmd = async (interaction: ChatInputCommandInteraction) => {
   const embed = new EmbedBuilder()
     .setTitle(`GERTRUDE Help`)
     .setDescription(helpText)
-    .setColor(0xd797ff);
+    .setColor(0xc58433);
 
   await interaction.reply({ embeds: [embed], allowedMentions: generateAllowedMentions([[], []]) });
 }

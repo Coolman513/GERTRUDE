@@ -26,7 +26,7 @@ export const DeleteProjectCmd = async (client: Client, db: Database, dbdata: Dat
 
   const embed = new EmbedBuilder()
     .setTitle(`Project Deletion`)
-    .setDescription(`Cleaned out the ${project} project for you. 残念。`)
-    .setColor(0xd797ff);
+    .setDescription(`Cleaned out the ${project} project for you. Very Dusty.`)
+    .setColor(0xc58433);
   await interaction.editReply({ embeds: [embed], allowedMentions: generateAllowedMentions([[], []]) });
 }

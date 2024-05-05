@@ -21,6 +21,8 @@ export const NewProjectCmd = async (client: Client, db: Database, dbdata: Databa
   const type = options.getString('type')!;
   const length = options.getNumber('length')!;
   const poster = options.getString('poster')!;
+  const pnumber = options.getNumber('pnumber')!;
+  const color = options.getString('color')!;
   const updateChannel = options.getChannel('updatechannel')!.id;
   const releaseChannel = options.getChannel('releasechannel')!.id;
 
@@ -33,26 +35,19 @@ export const NewProjectCmd = async (client: Client, db: Database, dbdata: Databa
     poster,
     type,
     keyStaff: [],
-    pnumber: [],
+    pnumber,
+    color,
     done: false,
     updateChannel,
-    releaseChannel
+    releaseChannel,
+    additionalStaff: [],
+    tasks: []
   };
   ref.set(newProj);
 
-  let epref = ref.child('pnumber');
-  for (let i = 1; i < length + 1; i++) {
-    epref.push({
-      number: i,
-      done: false,
-      additionalStaff: [],
-      tasks: []
-    });
-  }
-
   const embed = new EmbedBuilder()
     .setTitle(`Project Creation`)
-    .setDescription(`Since you asked, I created project \`${nickname}\` for you.\nDo remember to add staff/positions, though.`)
-    .setColor(0xd797ff);
+    .setDescription(`Since you asked, I created Project #${pnumber}, \`${nickname}\` for you.\nDo remember to add staff/positions, though.`)
+    .setColor(0xc58433);
   await interaction.editReply({ embeds: [embed], allowedMentions: generateAllowedMentions([[], []]) });
 }

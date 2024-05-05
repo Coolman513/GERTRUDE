@@ -17,8 +17,6 @@ import { RemoveStaffCmd } from "../commands/removeStaff.cmd";
 import { RemoveAdditionalStaffCmd } from "../commands/removeAdditionalStaff.cmd";
 import { DeleteProjectCmd } from "../commands/deleteProject.cmd";
 import { EditProjectCmd } from "../commands/editProject.cmd";
-import { AddpnumCmd } from "../commands/addProjectNumber.cmd";
-import { RemovepnumCmd } from "../commands/removeProjectNumberCmd";
 import { BlameCmd } from "../commands/blame.cmd";
 
 export default (client: Client, db: Database, dbdata: DatabaseData): void => {
@@ -47,12 +45,6 @@ export default (client: Client, db: Database, dbdata: DatabaseData): void => {
         break;
       case 'removeadditionalstaff':
         await RemoveAdditionalStaffCmd(client, db, dbdata, cmdInteraction);
-        break;
-      case 'addpnum':
-        await AddpnumCmd(client, db, dbdata, cmdInteraction);
-        break;
-      case 'removepnum':
-        await RemovepnumCmd(client, db, dbdata, cmdInteraction);
         break;
       case 'done':
         await DoneCmd(client, db, dbdata, cmdInteraction);
@@ -104,25 +96,24 @@ export default (client: Client, db: Database, dbdata: DatabaseData): void => {
         if (!(projectName in dbdata.guilds[guildId])) return;
         let project = dbdata.guilds[guildId][projectName];
         choices = [];
-        for (let ep in project.pnumber) {
-          let num = project.pnumber[ep].number;
-          if (String(num).startsWith(String(focusedOption.value)))
-            choices.push({ name: `${num}`, value: num });
-        }
+        let num = project.pnumber;
+        if (String(num).startsWith(String(focusedOption.value)))
+          choices.push({ name: `${num}`, value: num });
+        
         await interaction.respond(choices.slice(0, 25));
         return;
       }
       case 'abbreviation': {
         let projectName = options.getString('project');
-        let pnum = options.getNumber('pnum');
-        if (guildId === null || projectName === null || projectName === '' || pnum === null) break;
+        let pnumber = options.getNumber('pnumber');
+        if (guildId === null || projectName === null || projectName === '' || pnumber === null) break;
         if (!(projectName in dbdata.guilds[guildId])) break;
         let project = dbdata.guilds[guildId][projectName];
         choices = [];
-        for (let ep in project.pnumber) {
-          if (project.pnumber[ep].number == pnum) {
-            for (let taskId in project.pnumber[ep].tasks) {
-              let task = project.pnumber[ep].tasks[taskId];
+
+        if (project.pnumber == pnumber) {
+            for (let taskId in project.tasks) {
+              let task = project.tasks[taskId];
               if (task.abbreviation.startsWith(focusedOption.value.toUpperCase()))
               choices.push({ name: task.abbreviation, value: task.abbreviation });
             }
@@ -131,8 +122,7 @@ export default (client: Client, db: Database, dbdata: DatabaseData): void => {
         await interaction.respond(choices);
         return;
       }
-    }
-    await interaction.respond([]);
-    return;
+      await interaction.respond([]);
+      return;
   });
 };

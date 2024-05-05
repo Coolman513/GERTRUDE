@@ -11,17 +11,14 @@ export const ReleaseCmd = async (client: Client, db: Database, dbdata: DatabaseD
   await interaction.deferReply();
 
   const project = options.getString('project')!;
-  const type = options.getString('type')!;
-  const number = options.getString('number')!;
   const url: string | null = options.getString('url');
   const role = options.getRole('role')!.id;
   
   if (guildId == null || !(guildId in dbdata.guilds))
   return fail(`Guild ${guildId} does not exist.`, interaction);
 
-let projects = dbdata.guilds[guildId];
-let publishNumber = type !== 'Batch' ? number : `(${number})`;
-let publishRole = role !== null ? `<@&${role}> ` : '';
+  let projects = dbdata.guilds[guildId];
+  let publishRole = role !== null ? `<@&${role}> ` : '';
 
   if (!(project in projects))
     return fail(`Project ${project} does not exist.`, interaction);
@@ -31,12 +28,12 @@ let publishRole = role !== null ? `<@&${role}> ` : '';
   const replyEmbed = new EmbedBuilder()
     .setAuthor({ name: projects[project].title })
     .setTitle(`Project Released`)
-    .setDescription(`Nice job releasing **${projects[project].title} ${type} ${publishNumber}**!\nI wasn't sure you'd be able to do it, but you did!`)
-    .setColor(0xd797ff)
+    .setDescription(`Great job releasing **${projects[project].title}**, Master.\n`)
+    .setColor(0xc58433)
     .setTimestamp(Date.now());
   await interaction.editReply({ embeds: [replyEmbed], allowedMentions: generateAllowedMentions([[], []]) });
 
-  const publishBody = `**${projects[project].title} - ${type} ${publishNumber}**\n${publishRole}${url}`;
+  const publishBody = `**${projects[project].title}**\n${publishRole}\n${url}`;
   const publishChannel = client.channels.cache.get(projects[project].releaseChannel);
   if (publishChannel?.isTextBased)
     (publishChannel as TextChannel).send(publishBody);

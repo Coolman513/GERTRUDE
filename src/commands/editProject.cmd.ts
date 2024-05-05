@@ -24,6 +24,11 @@ export const EditProjectCmd = async (client: Client, db: Database, dbdata: Datab
   const ref = db.ref(`/Projects/`).child(`${guildId}`).child(`${project}`);
 
   switch (option) {
+    case 'Pnumber':
+      ref.update({ pnumber: newValue });
+      let pnumber = Number(newValue) || -1;
+      if (pnumber === -1 || isNaN(Number(pnumber))) return fail('Input must be a number', interaction);
+      break;
     case 'Title':
       ref.update({ title: newValue });
       break;
@@ -40,7 +45,7 @@ export const EditProjectCmd = async (client: Client, db: Database, dbdata: Datab
 
   const embed = new EmbedBuilder()
     .setTitle(`Project Modification`)
-    .setDescription(`I updated project \`${project}\` for you.`)
-    .setColor(0xd797ff);
+    .setDescription(`I have updated Project #${projects[project].pnumber}, \`${projects[project].nickname}\` for you.`)
+    .setColor(0xc58433);
   await interaction.editReply({ embeds: [embed], allowedMentions: generateAllowedMentions([[], []]) });
 }

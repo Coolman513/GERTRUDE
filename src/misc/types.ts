@@ -1,21 +1,17 @@
 
-export interface Project {
+export interface Project{
   nickname: string,
   title: string,
-  owner: string
+  owner: string,
   length: number,
   poster: string,
-  type: 'Vinyl' | 'CD' | 'BD' | string,
+  type: 'Vinyl' | 'Cassette' | 'CD' | 'BD' | string,
   keyStaff: Staff[],
-  pnumber: pnumber[],
+  pnumber: number,
+  color: string,
   done: boolean,
   updateChannel: string,
-  releaseChannel: string
-};
-
-export interface pnumber {
-  number: number,
-  done: boolean,
+  releaseChannel: string,
   additionalStaff: Staff[],
   tasks: Task[]
 };

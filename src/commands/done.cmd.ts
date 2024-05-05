@@ -11,15 +11,13 @@ export const DoneCmd = async (client: Client, db: Database, dbdata: DatabaseData
   await interaction.deferReply();
 
   const project = options.getString('project')!;
-  const pnum = options.getNumber('pnumber')!;
-  const abbreviation = options.getString('abbreviation')!.toUpperCase();
-
-  let epvalue;
+  let abbreviation: String | null = options.getString('abbreviation')!.toUpperCase();
+  
   let taskvalue;
   let taskName;
   let isValidUser = false;
   let status = '';
-  let pnumDone = true;
+  let pnumberDone = true;
   if (guildId == null || !(guildId in dbdata.guilds))
     return fail(`Guild ${guildId} does not exist.`, interaction);
 
@@ -37,26 +35,25 @@ export const DoneCmd = async (client: Client, db: Database, dbdata: DatabaseData
     }
   }
 
-  for (let ep in projects[project].pnumber) {
-    if (projects[project].pnumber[ep].number == pnum) {
-      epvalue = ep;
-      for (let task in projects[project].pnumber[ep].tasks) {
-        let taskObj = projects[project].pnumber[ep].tasks[task];
+  if (projects[project].pnumber != null) {
+      for (let task in projects[project].tasks) {
+        let taskObj = projects[project].tasks[task];
         if (taskObj.abbreviation === abbreviation) {
           taskvalue = task;
           if (taskObj.done)
             return fail(`Task ${abbreviation} is already done!`, interaction);
         }
-        else if (!taskObj.done) pnumDone = false;
+        else if (!taskObj.done) pnumberDone = false;
         // Status string
-        if (taskObj.abbreviation === abbreviation) status += `__~~${abbreviation}~~__ `;
+        if (taskObj.abbreviation === abbreviation) {
+          status += `__~~${abbreviation}~~__ `;}
         else if (taskObj.done) status += `~~${taskObj.abbreviation}~~ `;
         else status += `**${taskObj.abbreviation}** `;
       }
       if (taskvalue == undefined) return fail(`Task ${abbreviation} does not exist!`, interaction);
       if (!isValidUser) { // Not key staff
-        for (let addStaff in projects[project].pnumber[ep].additionalStaff) {
-          let addStaffObj = projects[project].pnumber[ep].additionalStaff[addStaff];
+        for (let addStaff in projects[project].additionalStaff) {
+          let addStaffObj = projects[project].additionalStaff[addStaff];
           if (addStaffObj.role.abbreviation === abbreviation && (addStaffObj.id === user.id || projects[project].owner === user.id)) {
             status = `✅ **${addStaffObj.role.title}**\n` + status;
             taskName = addStaffObj.role.title;
@@ -65,33 +62,34 @@ export const DoneCmd = async (client: Client, db: Database, dbdata: DatabaseData
         }
       }
     }
-  }
 
   if (!isValidUser)
     return fail('You do not have permission to do that.', interaction);
   if (taskvalue != undefined)
-    db.ref(`/Projects/${guildId}/${project}/pnumber/${epvalue}/tasks/${taskvalue}`).update({
+    db.ref(`/Projects/${guildId}/${project}/tasks/${taskvalue}`).update({
       abbreviation, done: true
     });
 
-  const pnumDoneText = pnumDone ? `\nAlso, pnum ${pnum} is now complete!` : '';
+  const pnumberDoneText = pnumberDone ? `\nAlso, \`${projects[project].nickname}\` is now complete!` : '';
   const replyEmbed = new EmbedBuilder()
     .setAuthor({ name: projects[project].title })
     .setTitle('✅ Task Complete')
-    .setDescription(`Nice job getting the **${taskName}** for pnum ${pnum} done.${pnumDoneText}`)
-    .setColor(0xd797ff)
+    .setDescription(`Nice job getting the **${taskName}** for Project #${projects[project].pnumber}, \`${projects[project].nickname}\` done.${pnumberDoneText}`)
+    .setColor(0xc58433)
     .setTimestamp(Date.now());
   await interaction.editReply({ embeds: [replyEmbed], allowedMentions: generateAllowedMentions([[], []]) });
 
-  if (pnumDone) {
-    db.ref(`/Projects/${guildId}/${project}/pnumber/${epvalue}`).update({ done: true });
+  if (pnumberDone) {
+    db.ref(`/Projects/${guildId}/${project}`).update({ done: true });
   }
+
 
   const publishEmbed = new EmbedBuilder()
     .setAuthor({ name: projects[project].title })
-    .setTitle(`pnum ${pnum}`)
+    .setTitle(`Project #${projects[project].pnumber}`)
     .setThumbnail(projects[project].poster)
-    .setDescription(status)
+    .setDescription(`${status} \n Media: ${projects[project].type} \n Number of Tracks: ${projects[project].length}`)
+    .setColor(Number(projects[project].color))
     .setTimestamp(Date.now());
   const publishChannel = client.channels.cache.get(projects[project].updateChannel);
   if (publishChannel?.isTextBased)

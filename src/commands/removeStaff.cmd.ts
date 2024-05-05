@@ -24,27 +24,26 @@ export const RemoveStaffCmd = async (client: Client, db: Database, dbdata: Datab
     return fail(`You do not have permission to do that.`, interaction);
 
   let success = false;
+  if (projects[project].pnumber != null) {
   for (let pos in projects[project].keyStaff)
     if (projects[project].keyStaff[pos].role.abbreviation == abbreviation) {
       success = true;
       db.ref(`/Projects/${guildId}/${project}`).child("keyStaff").child(pos).remove();
     }
+    if (success) {
+      for (let task in projects[project].tasks) {
+        if (projects[project].tasks[task].abbreviation == abbreviation)
+          db.ref(`/Projects/${guildId}/${project}/tasks`).child(task).remove();
+      }
+    }
+  }
 
 if (!success)
   return fail(`Task ${abbreviation} was not found.`, interaction);
 
-
-  const pnumber = projects[project].pnumber;
-  for (let key in pnumber) {
-    for (let task in pnumber[key].tasks) {
-      if (pnumber[key].tasks[task].abbreviation == abbreviation)
-        db.ref(`/Projects/${guildId}/${project}/pnumber/${key}/tasks`).child(task).remove();
-    }
-  }
-
   const embed = new EmbedBuilder()
     .setTitle(`Project Modification`)
-    .setDescription(`Removed position ${abbreviation} from the project.`)
-    .setColor(0xd797ff);
+    .setDescription(`Removed position ${abbreviation} for Project #${projects[project].pnumber}, \`${projects[project].nickname}\`.`)
+    .setColor(0xc58433);
   await interaction.editReply({ embeds: [embed], allowedMentions: generateAllowedMentions([[], []]) });
 }
