@@ -10,8 +10,7 @@ the steps to take to bootstrap a project:
   most relating to the display in progress updates.
 2. [/addstaff](#addstaff) to the project. These Key Staff are the tasks that will be done on every project.
   You can set placeholder members and [/swapstaff](#swapstaff) later on.
-3. If there are any tasks that will only be on a single project, such as scanning additional items
-  on episode 1, use [/addadditionalstaff](#addadditionalstaff).
+3. If there are any tasks that will only be on a single project, such as scanning additional items, use [/addadditionalstaff](#addadditionalstaff).
 4. Use [/editproject](#editproject) to reset certain values for the project or for the embeds in [/blame](#blame).
 5. That is about it, if you have any issues, feel free to tell me in issues.
 
