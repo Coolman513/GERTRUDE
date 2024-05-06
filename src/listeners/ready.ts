@@ -227,6 +227,10 @@ export default (client: Client): void => {
           .setRequired(true)
           .addChoices(
             { name: 'Pnumber', value: 'Pnumber' },
+            { name: 'Color', value: 'Color' },
+            { name: 'Type', value: 'Type' },
+            { name: 'Length', value: 'Length' },
+            { name: 'Nickname', value: 'Nickname' },
             { name: 'Title', value: 'Title' },
             { name: 'Poster', value: 'Poster' },
             { name: 'UpdateChannelID', value: 'UpdateChannel' },
