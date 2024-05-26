@@ -20,6 +20,11 @@ export const BlameCmd = async (client: Client, db: Database, dbdata: DatabaseDat
   let projects = dbdata.guilds[guildId];
   if (!(project in projects))
     return fail(`Project ${project} does not exist.`, interaction);
+
+  let sc = projects[project].scans;
+  if (!(project in sc))
+    return fail(`scan.`, interaction);
+  
   let status = '';
   let success = false;
 
@@ -37,7 +42,7 @@ export const BlameCmd = async (client: Client, db: Database, dbdata: DatabaseDat
     .setAuthor({ name: projects[project].title })
     .setTitle(`Project #${projects[project].pnumber}`)
     .setThumbnail(projects[project].poster)
-    .setDescription(`${status} \n Media: ${projects[project].type} \n Number of Tracks: ${projects[project].length}`)
+    .setDescription(`${status} \n Artist: ${projects[project].artist} \n Media: ${projects[project].type} \n Number of Tracks: ${projects[project].length}`)
     .setColor(Number(projects[project].color))
     .setTimestamp(Date.now());
   await interaction.editReply({ embeds: [embed], allowedMentions: generateAllowedMentions([[], []]) });

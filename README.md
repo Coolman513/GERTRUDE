@@ -1,12 +1,12 @@
 # GERTRUDE Discord Bot
 
-GERTRUDE is a discord bot used for tracking your Music Ripping progress, modified from 9vult's [nino](https://github.com/9vult/nino)
+Gertrude is a discord bot used for tracking your Music Ripping progress, modified from 9vult's nino
 
 ****
 
 ### Setup
 
- - GERTRUDE, just like Nino, requires a [Firebase Real-Time Database](https://firebase.google.com/docs/database) for logging and leaderboards. The base tier is free, and it is highly unlikely GERTRUDE will ever generate enough data to exceed the base tier.
+ - GERTRUDE, just like Nino, requires a [Firebase Real-Time Database](https://firebase.google.com/docs/database) for logging and leaderboards. The base tier is free, and it is highly unlikely Nino will ever generate enough data to exceed the base tier.
 
 Create a `.env` file in the project root and add the following to it: 
 

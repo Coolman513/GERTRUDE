@@ -4,20 +4,25 @@ import type { Database } from '@firebase/database-types';
 import { DatabaseData } from "../misc/types";
 import { NewProjectCmd } from "../commands/newProject.cmd";
 import { AddStaffCmd } from "../commands/addStaff.cmd";
+import { AddScansCmd } from "../commands/addScans.cmd";
 import { AddAdditionalStaffCmd } from "../commands/addAdditionalStaff.cmd";
 import { HelpCmd } from "../commands/help.cmd";
 import { AboutCmd } from "../commands/about.cmd";
 import { DoneCmd } from "../commands/done.cmd";
+import { DoneWScansCmd } from "../commands/doneWScans.cmd";
 import { UndoneCmd } from "../commands/undone.cmd";
+import { UndoneWScansCmd } from "../commands/undoneWScans.cmd";
 import { ReleaseCmd } from "../commands/release.cmd";
 import { SwapStaffCmd } from "../commands/swapStaff.cmd";
 import { SwapAdditionalStaffCmd } from "../commands/swapAdditionalStaff.cmd";
 import { TransferOwnershipCmd } from "../commands/transferOwnership.cmd";
 import { RemoveStaffCmd } from "../commands/removeStaff.cmd";
+import { RemoveScansCmd } from "../commands/removeScans.cmd";
 import { RemoveAdditionalStaffCmd } from "../commands/removeAdditionalStaff.cmd";
 import { DeleteProjectCmd } from "../commands/deleteProject.cmd";
 import { EditProjectCmd } from "../commands/editProject.cmd";
 import { BlameCmd } from "../commands/blame.cmd";
+import { BlameScansCmd } from "../commands/blameScans.cmd";
 
 export default (client: Client, db: Database, dbdata: DatabaseData): void => {
   client.on('interactionCreate', async (interaction) => {
@@ -31,11 +36,17 @@ export default (client: Client, db: Database, dbdata: DatabaseData): void => {
       case 'addstaff':
         await AddStaffCmd(client, db, dbdata, cmdInteraction);
         break;
+      case 'addscans':
+        await AddScansCmd(client, db, dbdata, cmdInteraction);
+        break;
       case 'swapstaff':
         await SwapStaffCmd(client, db, dbdata, cmdInteraction);
         break;
       case 'removestaff':
         await RemoveStaffCmd(client, db, dbdata, cmdInteraction);
+        break;
+      case 'removescans':
+        await RemoveScansCmd(client, db, dbdata, cmdInteraction);
         break;
       case 'addadditionalstaff':
         await AddAdditionalStaffCmd(client, db, dbdata, cmdInteraction);
@@ -49,8 +60,14 @@ export default (client: Client, db: Database, dbdata: DatabaseData): void => {
       case 'done':
         await DoneCmd(client, db, dbdata, cmdInteraction);
         break;
+      case 'donewscans':
+        await DoneWScansCmd(client, db, dbdata, cmdInteraction);
+        break;
       case 'undone':
         await UndoneCmd(client, db, dbdata, cmdInteraction);
+        break;
+      case 'undonewscans':
+        await UndoneWScansCmd(client, db, dbdata, cmdInteraction);
         break;
       case 'release':
         await ReleaseCmd(client, db, dbdata, cmdInteraction);
@@ -66,6 +83,9 @@ export default (client: Client, db: Database, dbdata: DatabaseData): void => {
         break;
       case 'blame':
         await BlameCmd(client, db, dbdata, cmdInteraction);
+        break;
+      case 'blamescans':
+        await BlameScansCmd(client, db, dbdata, cmdInteraction);
         break;
       case 'help':
         await HelpCmd(cmdInteraction);

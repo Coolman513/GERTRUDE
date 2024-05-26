@@ -45,6 +45,9 @@ export const EditProjectCmd = async (client: Client, db: Database, dbdata: Datab
     case 'Nickname':
       ref.update({ nickname: newValue });
       break;
+    case 'Artist':
+      ref.update({ artist: newValue });
+      break;
     case 'Title':
       ref.update({ title: newValue });
       break;

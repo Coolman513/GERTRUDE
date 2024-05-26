@@ -36,6 +36,11 @@ export default (client: Client): void => {
           .setRequired(true)
       )
       .addStringOption(o =>
+        o.setName('artist')
+          .setDescription('What Is The Artist Of The Media?')
+          .setRequired(true)
+      )
+      .addStringOption(o =>
         o.setName('type')
           .setDescription('Project Type')
           .setRequired(true)
@@ -69,7 +74,7 @@ export default (client: Client): void => {
 
     const addStaffCmd = new SlashCommandBuilder()
       .setName('addstaff')
-      .setDescription('Add staff To A project')
+      .setDescription('Add Staff To A Project')
       .addStringOption(o =>
         o.setName('project')
           .setDescription('Project Nickname')
@@ -92,7 +97,47 @@ export default (client: Client): void => {
           .setRequired(true)
       );
 
-    const removeStaffCmd = new SlashCommandBuilder()
+      const addScansCmd = new SlashCommandBuilder()
+      .setName('addscans')
+      .setDescription('Add A Scan To A Project')
+      .addStringOption(o =>
+        o.setName('project')
+          .setDescription('Project Nickname')
+          .setRequired(true)
+          .setAutocomplete(true)
+      )
+      .addUserOption(o =>
+        o.setName('member')
+          .setDescription('Staff Member')
+          .setRequired(true)
+      )
+      .addStringOption(o =>
+        o.setName('abbreviation')
+          .setDescription('Scan Shorthand')
+          .setRequired(true)
+      )
+      .addStringOption(o =>
+        o.setName('title')
+          .setDescription('Full Scan Name')
+          .setRequired(true)
+      );
+
+      const removeScansCmd = new SlashCommandBuilder()
+      .setName('removescans')
+      .setDescription('Remove A Scan From A project')
+      .addStringOption(o =>
+        o.setName('project')
+          .setDescription('Project Nickname')
+          .setRequired(true)
+          .setAutocomplete(true)
+      )
+      .addStringOption(o =>
+        o.setName('abbreviation')
+          .setDescription('Scan Shorthand')
+          .setRequired(true)
+      );
+
+      const removeStaffCmd = new SlashCommandBuilder()
       .setName('removestaff')
       .setDescription('Remove Staff From A project')
       .addStringOption(o =>
@@ -212,7 +257,7 @@ export default (client: Client): void => {
           .setAutocomplete(true)
       );
 
-      const editProjectCmd = new SlashCommandBuilder()
+    const editProjectCmd = new SlashCommandBuilder()
       .setName('editproject')
       .setDescription('Edit a project')
       .addStringOption(o =>
@@ -231,6 +276,7 @@ export default (client: Client): void => {
             { name: 'Type', value: 'Type' },
             { name: 'Length', value: 'Length' },
             { name: 'Nickname', value: 'Nickname' },
+            { name: 'Artist', value: 'Artist' },
             { name: 'Title', value: 'Title' },
             { name: 'Poster', value: 'Poster' },
             { name: 'UpdateChannelID', value: 'UpdateChannel' },
@@ -259,6 +305,22 @@ export default (client: Client): void => {
           .setAutocomplete(true)
       );
 
+    const doneWScansCmd = new SlashCommandBuilder()
+      .setName('donewscans')
+      .setDescription('Mark A Scan As Done')
+      .addStringOption(o =>
+        o.setName('project')
+          .setDescription('Project Nickname')
+          .setRequired(true)
+          .setAutocomplete(true)
+      )
+      .addStringOption(o =>
+        o.setName('abbreviation')
+          .setDescription('Scan Shorthand')
+          .setRequired(true)
+          .setAutocomplete(true)
+      );
+
     const undoneCmd = new SlashCommandBuilder()
       .setName('undone')
       .setDescription('Mark A Position As Not Done')
@@ -275,9 +337,35 @@ export default (client: Client): void => {
           .setAutocomplete(true)
       );
 
+      const undoneWScansCmd = new SlashCommandBuilder()
+      .setName('undonewscans')
+      .setDescription('Mark A Scan As Not Done')
+      .addStringOption(o =>
+        o.setName('project')
+          .setDescription('Project Nickname')
+          .setRequired(true)
+          .setAutocomplete(true)
+      )
+      .addStringOption(o =>
+        o.setName('abbreviation')
+          .setDescription('Scan Shorthand')
+          .setRequired(true)
+          .setAutocomplete(true)
+      );
+
     const blameCmd = new SlashCommandBuilder()
       .setName('blame')
       .setDescription('Check The Status Of A Project')
+      .addStringOption(o =>
+        o.setName('project')
+          .setDescription('Project Name')
+          .setRequired(true)
+          .setAutocomplete(true)
+      )
+
+      const blameScansCmd = new SlashCommandBuilder()
+      .setName('blamescans')
+      .setDescription('Check The Status Of The Scans')
       .addStringOption(o =>
         o.setName('project')
           .setDescription('Project Name')
@@ -309,7 +397,9 @@ export default (client: Client): void => {
     client.application.commands.create(aboutCmd);
     client.application.commands.create(newProjectCmd);
     client.application.commands.create(addStaffCmd);
+    client.application.commands.create(addScansCmd);
     client.application.commands.create(removeStaffCmd);
+    client.application.commands.create(removeScansCmd);
     client.application.commands.create(swapStaffCmd);
     client.application.commands.create(addAdditionalStaffCmd);
     client.application.commands.create(removeAdditionalStaffCmd);
@@ -318,8 +408,11 @@ export default (client: Client): void => {
     client.application.commands.create(deleteProjectCmd);
     client.application.commands.create(editProjectCmd);
     client.application.commands.create(doneCmd);
+    client.application.commands.create(doneWScansCmd);
     client.application.commands.create(undoneCmd);
+    client.application.commands.create(undoneWScansCmd);
     client.application.commands.create(blameCmd);
+    client.application.commands.create(blameScansCmd);
     client.application.commands.create(releaseCmd);
 
     console.log('GERTRUDE is ready to go!');
