@@ -32,7 +32,7 @@ Set up a new project. This command is only accessible by server administrators.
 | title | yes | string | Full name of the series (used in embeds) |
 | pnumber | yes | number | Project number (used in embeds) |
 | color | yes | string | Hex color string (0x needs to precede string, used in embeds) |
-| artist | yes | string | Artist of the media in the project |
+| artist | yes | string | Artist of the media in the project (used in embeds) |
 | type | yes | choose | Type of media the project is. Choose between Vinyl, Cassette, CD, or BD |
 | length | yes | number | Number of tracks present on the media |
 | poster | yes | string<URL> | Poster image URL (used in embeds) |
@@ -134,7 +134,7 @@ Options:
 | Option | Input type | Description |
 |--------|------------|-------------|
 | Pnumber | number | Project number |
-| Color | string | | Hex color string (0x needs to precede string, used in embeds) |
+| Color | string | | Hex color string (0x needs to precede string) |
 | Type | string | Type of media the project is. Has to be Vinyl, Cassette, CD, or BD |
 | Length | number | Number of tracks present on the media |
 | Nickname | string | Short nickname for referring to the project in other commands |
