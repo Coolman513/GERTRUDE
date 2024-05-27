@@ -20,10 +20,6 @@ export const BlameCmd = async (client: Client, db: Database, dbdata: DatabaseDat
   let projects = dbdata.guilds[guildId];
   if (!(project in projects))
     return fail(`Project ${project} does not exist.`, interaction);
-
-  let sc = projects[project].scans;
-  if (!(project in sc))
-    return fail(`scan.`, interaction);
   
   let status = '';
   let success = false;
