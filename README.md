@@ -6,7 +6,7 @@ Gertrude is a discord bot used for tracking your Music Ripping progress, modifie
 
 ### Setup
 
- - GERTRUDE, just like Nino, requires a [Firebase Real-Time Database](https://firebase.google.com/docs/database) for logging and leaderboards. The base tier is free, and it is highly unlikely Nino will ever generate enough data to exceed the base tier.
+ - GERTRUDE, just like [Nino](https://github.com/9vult/nino), requires a [Firebase Real-Time Database](https://firebase.google.com/docs/database) for logging and leaderboards. The base tier is free, and it is highly unlikely both bots will ever generate enough data to exceed the base tier.
 
 Create a `.env` file in the project root and add the following to it: 
 
