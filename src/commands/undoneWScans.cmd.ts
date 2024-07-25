@@ -65,11 +65,11 @@ export const UndoneWScansCmd = async (client: Client, db: Database, dbdata: Data
     return fail('You do not have permission to do that.', interaction);
 
   if (taskvalue != undefined)
-    db.ref(`/Projects/${guildId}/${project}/tasks/${taskvalue}`).update({
+    db.ref(`/Projects/${guildId}/${project}/scans/${taskvalue}`).update({
       abbreviation, done: false
     });
 
-  db.ref(`/Projects/${guildId}/${project}`).update({ done: false });
+  db.ref(`/Projects/${guildId}/${project}`).update({ scansDone: false });
 
   const embed = new EmbedBuilder()
     .setAuthor({ name: projects[project].title })
