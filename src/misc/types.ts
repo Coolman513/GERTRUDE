@@ -5,15 +5,18 @@ export interface Project{
   owner: string,
   length: number,
   poster: string,
-  type: 'Vinyl' | 'Cassette' | 'CD' | 'BD' | string,
+  artist: string,
+  type: 'Vinyl' | 'Cassette' | 'CD' | 'SACD' | 'BD' | string,
   keyStaff: Staff[],
   pnumber: number,
   color: string,
   done: boolean,
+  scansDone: boolean,
   updateChannel: string,
   releaseChannel: string,
   additionalStaff: Staff[],
   tasks: Task[]
+  scans: Scans[]
 };
 
 export interface Staff {
@@ -28,6 +31,13 @@ export interface Role {
 
 export type Task = {
   abbreviation: string,
+  done: boolean
+};
+
+export type Scans = {
+  id: string,
+  abbreviation: string,
+  title: string,
   done: boolean
 };
 

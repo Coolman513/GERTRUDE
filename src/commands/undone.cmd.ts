@@ -83,7 +83,7 @@ export const UndoneCmd = async (client: Client, db: Database, dbdata: DatabaseDa
     .setAuthor({ name: projects[project].title })
     .setTitle(`Project #${projects[project].pnumber}`)
     .setThumbnail(projects[project].poster)
-    .setDescription(`${status} \n Media: ${projects[project].type} \n Number of Tracks: ${projects[project].length}`)
+    .setDescription(`${status} \n Artist: ${projects[project].artist} \n Media: ${projects[project].type} \n Number of Tracks: ${projects[project].length}`)
     .setColor(Number(projects[project].color))
     .setTimestamp(Date.now());
   const publishChannel = client.channels.cache.get(projects[project].updateChannel);

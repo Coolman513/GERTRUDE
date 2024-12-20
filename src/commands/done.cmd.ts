@@ -1,4 +1,4 @@
-import { ChatInputCommandInteraction, Client, EmbedBuilder, TextChannel } from "discord.js";
+import { ChatInputCommandInteraction, Client, EmbedBuilder, TextChannel} from "discord.js";
 import { generateAllowedMentions } from "../actions/generateAllowedMentions.action";
 import { DatabaseData } from "../misc/types";
 import { Database } from "@firebase/database-types";
@@ -88,7 +88,7 @@ export const DoneCmd = async (client: Client, db: Database, dbdata: DatabaseData
     .setAuthor({ name: projects[project].title })
     .setTitle(`Project #${projects[project].pnumber}`)
     .setThumbnail(projects[project].poster)
-    .setDescription(`${status} \n Media: ${projects[project].type} \n Number of Tracks: ${projects[project].length}`)
+    .setDescription(`${status} \n Artist: ${projects[project].artist} \n Media: ${projects[project].type} \n Number of Tracks: ${projects[project].length}`)
     .setColor(Number(projects[project].color))
     .setTimestamp(Date.now());
   const publishChannel = client.channels.cache.get(projects[project].updateChannel);

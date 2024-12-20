@@ -25,9 +25,28 @@ export const EditProjectCmd = async (client: Client, db: Database, dbdata: Datab
 
   switch (option) {
     case 'Pnumber':
-      ref.update({ pnumber: newValue });
       let pnumber = Number(newValue) || -1;
       if (pnumber === -1 || isNaN(Number(pnumber))) return fail('Input must be a number', interaction);
+      ref.update({ pnumber: newValue });
+      break;
+    case 'Color':
+      if (!newValue.includes('0x')) return fail('Input must be a hex color and also include the prefix "0x"', interaction);
+      ref.update({ color: newValue });
+      break;
+    case 'Type':
+      if (!(['Vinyl', 'Cassette', 'CD', 'SACD', 'BD']).includes(newValue)) return fail('Input must be a one of the types of media', interaction);
+      ref.update({ type: newValue });
+      break;
+    case 'Length':
+      let length = Number(newValue) || -1;
+      if (length === -1 || isNaN(Number(length))) return fail('Input must be a number', interaction);
+      ref.update({ length: newValue });
+      break;
+    case 'Nickname':
+      ref.update({ nickname: newValue });
+      break;
+    case 'Artist':
+      ref.update({ artist: newValue });
       break;
     case 'Title':
       ref.update({ title: newValue });

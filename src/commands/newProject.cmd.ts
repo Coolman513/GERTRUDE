@@ -18,6 +18,7 @@ export const NewProjectCmd = async (client: Client, db: Database, dbdata: Databa
   const nickname = options.getString('nickname')!;
   const title = options.getString('title')!;
   const owner = String(user!.id);
+  const artist = options.getString('artist')!;
   const type = options.getString('type')!;
   const length = options.getNumber('length')!;
   const poster = options.getString('poster')!;
@@ -33,15 +34,18 @@ export const NewProjectCmd = async (client: Client, db: Database, dbdata: Databa
     owner,
     length,
     poster,
+    artist,
     type,
     keyStaff: [],
     pnumber,
     color,
     done: false,
+    scansDone: false,
     updateChannel,
     releaseChannel,
     additionalStaff: [],
-    tasks: []
+    tasks: [],
+    scans: []
   };
   ref.set(newProj);
 
