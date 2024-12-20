@@ -28,4 +28,4 @@ Pull requests are always welcome.
 Nino is licensed under LGPL v3.0.
 
 
-© 2024 9volt/CoolMan513.
+© 2024 9volt/CoolMan513
